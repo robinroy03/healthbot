@@ -51,8 +51,8 @@ def router(message):
     """
     if not db.patient_has_registered(message.chat.id):
         # this response is then the name, reg, phone thing .., so plug it into db
-        patient_details = [message.chat.id, *message.text.split("\n")]
-        db.register_patient(*patient_details)
+        fields = message.text.split("\n")
+        db.register_patient(message.chat.id, fields[0], int(fields[1]), fields[2], fields[3], fields[4], int(fields[5]))
         bot.reply_to(message, "You've registered, continue using the app", reply_markup = markup)
     if message.text == "Schedule a doctor appointment":
         if not db.appointment_exists(message.chat.id):
