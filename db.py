@@ -43,11 +43,17 @@ def create_patient(telegram_id: int) -> None:
 
     patients_collection.insert_one(new_patient)
 
+def get_patient(telegram_id: int) -> dict:
+    '''
+    Returns the patient with the given telegram_id
+    '''
+    return patients_collection.find_one({"telegram_id": telegram_id})
+
 def patient_has_registered(telegram_id: int) -> bool:
     '''
     Returns True if the patient has registered (If the empty fields have been filled), False otherwise
     '''
-    patient = patients_collection.find_one({"telegram_id": telegram_id})
+    patient = get_patient(telegram_id)
     return patient["has_registered"]
 
 def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: str, block: str, room_no: int) -> None:
@@ -89,7 +95,7 @@ def create_appointment(telegram_id: int) -> None:
     Creates a new appointment for the patient with the given telegram_id
     '''
     make_patient_sick(telegram_id)
-    patient = patients_collection.find_one({"telegram_id": telegram_id})
+    patient = get_patient(telegram_id)
     new_appointment = {
         "telegram_id": patient["telegram_id"],
         "name": patient["name"],
