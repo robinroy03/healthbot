@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os 
 
 import db
+import notifbot
 
 load_dotenv()
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN"), parse_mode = None)
@@ -59,9 +60,18 @@ def router(message):
             doctor_appointment(message)
         else:
             bot.reply_to(message, "You already have an appointment scheduled")
+    elif message.text == "Deliver food to room":
+        deliver_food_to_room(message)
 
 def doctor_appointment(message):
     bot.reply_to(message, "Done! Your appointment has been scheduled")
     db.create_appointment(message.chat.id)
+
+def deliver_food_to_room(message):
+    if db.is_patient_sick(message.chat.id):
+        bot.reply_to(message, "Done! We'll send food to your room soon :)")
+        
+    else:
+        bot.reply_to(message, "Sorry, you can't avail this feature when you're not sick")
 
 bot.infinity_polling()
