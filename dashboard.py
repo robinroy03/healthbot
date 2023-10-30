@@ -10,6 +10,39 @@ import notifbot
 
 st_autorefresh(2000)
 
+with st.sidebar:
+    st.markdown("""
+    Navigate using the given tabs
+    """)
+
+st.markdown("""
+# ```HealthBot Dashboard🏥```
+In this page, you're having the queue of patient(s), which will be populated as new patients apply.
+""")
+
+with st.expander("See the explanation on usage"):
+    st.markdown("""
+    ```
+    In the left, enter the patient prescription following this:
+    
+    \"Morning-Afternoon-Night\"
+    X = Do not take medicine 
+    O = Take Medicine
+                
+    Symptoms:
+    Symptom1
+    Symptom2
+                
+    Medicines:
+    Medicine1 number_of_days X-O-O
+    Medicine2 number_of_days O-X-O
+    ```
+    """)
+
+st.markdown("""
+---
+""")
+
 def appointment_over(telegram_id: int, dr_input: str):
     """
     A wrappper for db.close_appointment()
