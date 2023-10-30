@@ -101,7 +101,7 @@ def get_patient_by_reg_no(reg_no: str) -> dict:
     '''
     Returns the patient with the given registration number
     '''
-    return patients_collection.find({"reg_no": reg_no})
+    return patients_collection.find_one({"reg_no": reg_no})
 
 
 # Appointments
