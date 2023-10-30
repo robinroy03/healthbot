@@ -97,6 +97,12 @@ def is_patient_sick(telegram_id: int) -> bool:
     patient = get_patient(telegram_id)
     return patient["is_sick"]
 
+def get_patient_by_reg_no(reg_no: str) -> dict:
+    '''
+    Returns a list of all the patients with the given registration number
+    '''
+    return patients_collection.find({"reg_no": reg_no})
+
 
 # Appointments
 def create_appointment(telegram_id: int) -> None:
