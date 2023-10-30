@@ -90,6 +90,13 @@ def get_sick_patients() -> list:
     '''
     return patients_collection.find({"is_sick": True})
 
+def is_patient_sick(telegram_id: int) -> bool:
+    '''
+    Returns True if the patient with the given telegram_id is sick, False otherwise
+    '''
+    patient = get_patient(telegram_id)
+    return patient["is_sick"]
+
 
 # Appointments
 def create_appointment(telegram_id: int) -> None:
