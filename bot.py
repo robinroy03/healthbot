@@ -62,6 +62,8 @@ def router(message):
             bot.reply_to(message, "You already have an appointment scheduled")
     elif message.text == "Deliver food to room":
         deliver_food_to_room(message)
+    elif message.text == "Call Ambulance":
+        call_ambulance(message)
 
 def doctor_appointment(message):
     bot.reply_to(message, "Done! Your appointment has been scheduled")
@@ -73,5 +75,15 @@ def deliver_food_to_room(message):
         notifbot.send_message_to_warden(message.chat.id)
     else:
         bot.reply_to(message, "Sorry, you can't avail this feature when you're not sick")
+
+def call_ambulance(message):
+    # TODO: Penalize those who spam
+
+    bot.reply_to(message, "Done! We'll share this information to the authorities and they'll let you know soon")
+    if not db.appointment_exists(message.chat.id):
+        doctor_appointment(message)
+    else:
+        bot.reply_to(message, "You already have an appointment scheduled")    
+    notifbot.send_message_to_warden_ambulance(message.chat.id)
 
 bot.infinity_polling()
