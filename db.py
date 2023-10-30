@@ -13,7 +13,7 @@ load_dotenv()
 client = MongoClient(os.getenv("ATLAS_URI"), server_api=ServerApi('1'))
 db = client[os.getenv("DB_NAME")]
 patients_collection = db["patients"]
-appointment_qeuue_collection = db["appointment_queue"]
+appointment_queue_collection = db["appointment_queue"]
 
 
 # FUNCTIONS
@@ -92,13 +92,19 @@ def create_appointment(telegram_id: int) -> None:
         "is_active": True,
     }
 
-    appointment_qeuue_collection.insert_one(new_appointment)
+    appointment_queue_collection.insert_one(new_appointment)
+
+def appointment_exists(telegram_id: int) -> bool:
+    '''
+    Returns True if the patient with the given telegram_id has an active appointment, False otherwise
+    '''
+    return appointment_queue_collection.count_documents({"telegram_id": telegram_id, "is_active": True}) != 0
 
 def close_appointment(telegram_id: int) -> None:
     '''
     Closes the active appointment for the patient with the given telegram_id
     '''
-    appointment_qeuue_collection.update_one(
+    appointment_queue_collection.update_one(
         {"telegram_id": telegram_id},
         {"$set": {"is_active": False}}
     )
@@ -107,19 +113,19 @@ def get_appointment_queue_size() -> int:
     '''
     Returns the number of active appointments
     '''
-    return appointment_qeuue_collection.count_documents({})
+    return appointment_queue_collection.count_documents({})
 
 def get_all_appointments() -> list:
     '''
     Returns a list of all the appointments
     '''
-    return appointment_qeuue_collection.find({})
+    return appointment_queue_collection.find({})
 
 def get_active_appointments() -> list:
     '''
     Returns a list of all the active appointments for the patient with the given telegram_id
     '''
-    return appointment_qeuue_collection.find({"is_active": True})
+    return appointment_queue_collection.find({"is_active": True})
 
 
 # Consultations
