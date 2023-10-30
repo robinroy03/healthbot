@@ -6,6 +6,7 @@ import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
 import db
+import notifbot
 
 st_autorefresh(2000)
 
@@ -14,8 +15,8 @@ def appointment_over(telegram_id: int, prescription: str):
     A wrappper for db.close_appointment()
     takes inputs such as symptoms, medicines, number of days to take medicines, when all (mrng, evng, night)
     """
-    print(prescription)
     db.close_appointment(telegram_id)
+    notifbot.send_queue_notifications()
 
 for appointment in db.get_active_appointments():
     with st.container():
