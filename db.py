@@ -76,6 +76,12 @@ def make_patient_sick(telegram_id: int) -> None:
         {"$set": {"is_sick": True}}
     )
 
+def get_sick_patients() -> list:
+    '''
+    Returns a list of all the sick patients
+    '''
+    return patients_collection.find({"is_sick": True})
+
 
 # Appointments
 def create_appointment(telegram_id: int) -> None:
@@ -105,7 +111,7 @@ def close_appointment(telegram_id: int) -> None:
     Closes the active appointment for the patient with the given telegram_id
     '''
     appointment_queue_collection.update_one(
-        {"telegram_id": telegram_id},
+        {"telegram_id": telegram_id, "is_active": True},
         {"$set": {"is_active": False}}
     )
 
