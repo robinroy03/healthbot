@@ -74,5 +74,8 @@ def close_appointment(telegram_id: int) -> None:
         {"$set": {"is_active": False}}
     )
 
+def get_appointment_queue_size() -> int:
+    return appointment_qeuue_collection.count_documents({})
+
 def get_active_appointments(telegram_id: int) -> list:
     return appointment_qeuue_collection.find({"telegram_id": telegram_id, "is_active": True})
