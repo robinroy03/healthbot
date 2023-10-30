@@ -10,11 +10,18 @@ import notifbot
 
 st_autorefresh(2000)
 
-def appointment_over(telegram_id: int, prescription: str):
+def appointment_over(telegram_id: int, dr_input: str):
     """
     A wrappper for db.close_appointment()
     takes inputs such as symptoms, medicines, number of days to take medicines, when all (mrng, evng, night)
     """
+    symptoms, prescription = dr_input.split("\n\n")
+    symptoms = symptoms.split("\n")[1:]
+    prescription = prescription.split("\n")[1:]
+    prescription = [medicine.split() for medicine in prescription]
+    prescription = [{"name": prescription[0], "days": int(prescription[1]), "timings": [True if x == "O" else False for x in prescription[2].split("-")]} for prescription in prescription]
+    print(symptoms, prescription)
+    db.create_consultation(telegram_id, symptoms, prescription)
     db.close_appointment(telegram_id)
     notifbot.send_queue_notifications()
 
@@ -26,9 +33,10 @@ for appointment in db.get_active_appointments():
             st.write("Age: ", appointment['age'])
             st.write("Phone Number: ", appointment['phone_no'])
             st.write("Time: ", appointment['time'])
+        
         with right:
             with st.form(key = str(appointment['telegram_id'])):
-                dr_input = st.text_input(label = "Enter the patient presciption", placeholder = "Enter here")
+                dr_input = st.text_area(value="Symptoms: \n\nMedicines: ", label = "Enter the patient presciption", placeholder = "Enter here")
                 submitted = st.form_submit_button("Submit")
 
                 if submitted and dr_input != "":
