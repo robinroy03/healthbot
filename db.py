@@ -19,9 +19,15 @@ appointment_qeuue_collection = db["appointment_queue"]
 # FUNCTIONS
 # Registrations
 def patient_exists(telegram_id: int) -> bool:
+    '''
+    Returns True if the patient exists in the database, False otherwise
+    '''
     return patients_collection.count_documents({"telegram_id": telegram_id}) != 0
 
 def create_patient(telegram_id: int) -> None:
+    '''
+    Creates a new empty patient in the database with empty fields
+    '''
     new_patient = {
         "telegram_id": telegram_id,
         "has_registered": False,
@@ -37,10 +43,16 @@ def create_patient(telegram_id: int) -> None:
     patients_collection.insert_one(new_patient)
 
 def patient_has_registered(telegram_id: int) -> bool:
+    '''
+    Returns True if the patient has registered (If the empty fields have been filled), False otherwise
+    '''
     patient = patients_collection.find_one({"telegram_id": telegram_id})
     return patient["has_registered"]
 
 def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: str, block: str, room_no: int) -> None:
+    '''
+    Fills the empty fields of the patient with the given details
+    '''
     patients_collection.update_one(
         {"telegram_id": telegram_id},
         {"$set": {
@@ -57,6 +69,9 @@ def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: st
 
 # Appointments
 def create_appointment(telegram_id: int) -> None:
+    '''
+    Creates a new appointment for the patient with the given telegram_id
+    '''
     patient = patients_collection.find_one({"telegram_id": telegram_id})
     new_appointment = {
         "telegram_id": patient["telegram_id"],
@@ -69,13 +84,22 @@ def create_appointment(telegram_id: int) -> None:
     appointment_qeuue_collection.insert_one(new_appointment)
 
 def close_appointment(telegram_id: int) -> None:
+    '''
+    Closes the active appointment for the patient with the given telegram_id
+    '''
     appointment_qeuue_collection.update_one(
         {"telegram_id": telegram_id},
         {"$set": {"is_active": False}}
     )
 
 def get_appointment_queue_size() -> int:
+    '''
+    Returns the number of active appointments
+    '''
     return appointment_qeuue_collection.count_documents({})
 
 def get_active_appointments(telegram_id: int) -> list:
+    '''
+    Returns a list of all the active appointments for the patient with the given telegram_id
+    '''
     return appointment_qeuue_collection.find({"telegram_id": telegram_id, "is_active": True})
