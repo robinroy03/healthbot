@@ -98,6 +98,12 @@ def get_appointment_queue_size() -> int:
     '''
     return appointment_qeuue_collection.count_documents({})
 
+def get_all_appointments() -> list:
+    '''
+    Returns a list of all the appointments
+    '''
+    return appointment_qeuue_collection.find({})
+
 def get_active_appointments(telegram_id: int) -> list:
     '''
     Returns a list of all the active appointments for the patient with the given telegram_id
