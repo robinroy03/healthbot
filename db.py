@@ -5,15 +5,19 @@ from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
 
+from datetime import datetime
+
 
 # SETUP
 load_dotenv()
 client = MongoClient(os.getenv("ATLAS_URI"), server_api=ServerApi('1'))
 db = client[os.getenv("DB_NAME")]
 patients_collection = db["patients"]
+appointment_qeuue_collection = db["appointment_queue"]
 
 
 # FUNCTIONS
+# Registrations
 def patient_exists(telegram_id: int) -> bool:
     return patients_collection.count_documents({"telegram_id": telegram_id}) != 0
 
@@ -49,3 +53,26 @@ def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: st
             "room_no": room_no
         }}
     )
+
+
+# Appointments
+def create_appointment(telegram_id: int) -> None:
+    patient = patients_collection.find_one({"telegram_id": telegram_id})
+    new_appointment = {
+        "telegram_id": patient["telegram_id"],
+        "name": patient["name"],
+        "age": patient["age"],
+        "time": datetime.now(),
+        "is_active": True,
+    }
+
+    appointment_qeuue_collection.insert_one(new_appointment)
+
+def close_appointment(telegram_id: int) -> None:
+    appointment_qeuue_collection.update_one(
+        {"telegram_id": telegram_id},
+        {"$set": {"is_active": False}}
+    )
+
+def get_active_appointments(telegram_id: int) -> list:
+    return appointment_qeuue_collection.find({"telegram_id": telegram_id, "is_active": True})
