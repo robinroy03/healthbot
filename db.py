@@ -142,6 +142,12 @@ def get_active_appointments() -> list:
     '''
     return appointment_queue_collection.find({"is_active": True})
 
+def get_first_appointment() -> list:
+    '''
+    Returns a list of the first three active appointments
+    '''
+    return appointment_queue_collection.find({"is_active": True}).limit(1)
+
 
 # Consultations
 def create_consultation(telegram_id: int, symptoms: list, prescription: dict) -> None:
