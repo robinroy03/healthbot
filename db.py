@@ -31,6 +31,7 @@ def create_patient(telegram_id: int) -> None:
     new_patient = {
         "telegram_id": telegram_id,
         "has_registered": False,
+        "is_sick": False,
         "name": None,
         "age": None,
         "sex": None,
@@ -66,12 +67,22 @@ def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: st
         }}
     )
 
+def make_patient_sick(telegram_id: int) -> None:
+    '''
+    Makes the patient with the given telegram_id sick
+    '''
+    patients_collection.update_one(
+        {"telegram_id": telegram_id},
+        {"$set": {"is_sick": True}}
+    )
+
 
 # Appointments
 def create_appointment(telegram_id: int) -> None:
     '''
     Creates a new appointment for the patient with the given telegram_id
     '''
+    make_patient_sick(telegram_id)
     patient = patients_collection.find_one({"telegram_id": telegram_id})
     new_appointment = {
         "telegram_id": patient["telegram_id"],
@@ -104,8 +115,24 @@ def get_all_appointments() -> list:
     '''
     return appointment_qeuue_collection.find({})
 
-def get_active_appointments(telegram_id: int) -> list:
+def get_active_appointments() -> list:
     '''
     Returns a list of all the active appointments for the patient with the given telegram_id
     '''
-    return appointment_qeuue_collection.find({"telegram_id": telegram_id, "is_active": True})
+    return appointment_qeuue_collection.find({"is_active": True})
+
+
+# Consultations
+def create_consultation(telegram_id: int, symptoms: list, prescription: dict) -> None:
+    '''
+    Creates a new consultation for the patient with the given telegram_id
+    '''
+    new_consultation = {
+        "symptoms": symptoms,
+        "prescription": prescription,
+        "time": datetime.now()
+    }
+    patients_collection.update_one(
+        {"telegram_id": telegram_id},
+        {"$push": {"consultations": new_consultation}}
+    )
