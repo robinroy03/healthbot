@@ -27,4 +27,4 @@ def send_message_to_warden(telegram_id: int):
     bot = telebot.TeleBot(os.getenv("NOTIF_BOT_TOKEN"), parse_mode = None)
     # hardcoding Harish's telegram ID => he is the warden here for testing 
     patient = db.get_patient(telegram_id)
-    bot.send_message(5454943365, f'Student {patient["name"]} from room {patient["room_no"]} is sick and has requested for food to be sent to  their room')
+    bot.send_message(5454943365, f'Student {patient["name"]} from room {patient["room_no"]} is sick and has requested for food to be sent to their room')
