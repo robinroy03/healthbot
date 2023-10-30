@@ -70,7 +70,7 @@ def doctor_appointment(message):
 def deliver_food_to_room(message):
     if db.is_patient_sick(message.chat.id):
         bot.reply_to(message, "Done! We'll send food to your room soon :)")
-        
+        notifbot.send_message_to_warden(message.chat.id)
     else:
         bot.reply_to(message, "Sorry, you can't avail this feature when you're not sick")
 
