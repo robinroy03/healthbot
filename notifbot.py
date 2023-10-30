@@ -36,7 +36,7 @@ def send_message_to_warden_ambulance(telegram_id: int):
     patient = db.get_patient(telegram_id)
     
     # message to the warden
-    bot.send_message(5454943365, f'Student {patient["name"]} from room {patient["room_no"]} phone {patient["phone_no"]} is sick and has requested for ambulance')
+    bot.send_message(5454943365, f'Student {patient["name"]} from room: {patient["room_no"]} phone number: {patient["phone_no"]} is sick and has requested for ambulance')
 
     # message to the ambulance driver
     bot.send_message(751788076 , f'A student in {patient["block"]} block is sick and needs ambulance, please contact the warden and take the necessary steps')
