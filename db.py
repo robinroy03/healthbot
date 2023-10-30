@@ -14,6 +14,9 @@ patients_collection = db["patients"]
 
 
 # FUNCTIONS
+def patient_exists(telegram_id: int) -> bool:
+    return patients_collection.count_documents({"telegram_id": telegram_id}) != 0
+
 def create_patient(telegram_id: int) -> None:
     new_patient = {
         "telegram_id": telegram_id,
