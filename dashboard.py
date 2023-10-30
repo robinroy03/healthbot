@@ -21,8 +21,10 @@ for appointment in db.get_active_appointments():
     with st.container():
         left, right = st.columns(2, gap = "small")
         with left:
-            st.write("Name:", appointment['name'])
-            st.write("Age:", appointment['age'])
+            st.write("Name: ", appointment['name'])
+            st.write("Age: ", appointment['age'])
+            st.write("Phone Number: ", appointment['phone_no'])
+            st.write("Time: ", appointment['time'])
         with right:
             with st.form(key = str(appointment['telegram_id'])):
                 dr_input = st.text_input(label = "Enter the patient presciption", placeholder = "Enter here")

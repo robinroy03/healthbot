@@ -38,6 +38,7 @@ def create_patient(telegram_id: int) -> None:
         "reg_no": None,
         "block": None,
         "room_no": None,
+        "phone_no": None,
         "consultations": []
     }
 
@@ -56,7 +57,7 @@ def patient_has_registered(telegram_id: int) -> bool:
     patient = get_patient(telegram_id)
     return patient["has_registered"]
 
-def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: str, block: str, room_no: int) -> None:
+def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: str, block: str, room_no: int, phone_no: int) -> None:
     '''
     Fills the empty fields of the patient with the given details
     '''
@@ -69,7 +70,8 @@ def register_patient(telegram_id: int, name: str, age: int, sex: str, reg_no: st
             "sex": sex,
             "reg_no": reg_no,
             "block": block,
-            "room_no": room_no
+            "room_no": room_no,
+            "phone_no": phone_no
         }}
     )
 
@@ -100,6 +102,7 @@ def create_appointment(telegram_id: int) -> None:
         "telegram_id": patient["telegram_id"],
         "name": patient["name"],
         "age": patient["age"],
+        "phone_no": patient["phone_no"],
         "time": datetime.now(),
         "is_active": True,
     }

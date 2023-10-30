@@ -24,7 +24,7 @@ patient_has_registered(telegram_id: int) => [true, false]
 register_patient(message.text: str) => to store the user acc details for new registration
 """
 
-ACTIONS = ['Schedule a doctor appointment', 'Call Ambulance', 'Schedule a counsellor appointment', 'Deliver food to room']
+ACTIONS = ['Schedule a doctor\'s appointment', 'Call Ambulance', 'Schedule a counsellor appointment', 'Deliver food to room']
 markup = ReplyKeyboardMarkup(row_width=1)
 for i in ACTIONS:
     markup.add(KeyboardButton(i))
@@ -35,14 +35,14 @@ def start(message):
         db.create_patient(message.chat.id)
         bot.reply_to(message, "Please register yourself using /register")
     else:
-        bot.reply_to(message, "welcome to healthbot, we are here to help you out :)", reply_markup = markup)
+        bot.reply_to(message, "Welcome to healthbot, we are here to help you out :)", reply_markup = markup)
 
 @bot.message_handler(commands = ['register'])
 def register(message):
     if db.patient_has_registered(message.chat.id):
         bot.reply_to(message, "You are already registed. You do not have to register again", reply_markup = markup)
     else:
-        bot.reply_to(message, "Enter your Name, Age, Sex, Registration Number, Hostel Block, Room Number in seperate lines")
+        bot.reply_to(message, '''Enter your details in the following format:\nName\nAge\nSex [M/F]\nRegistration Number\nHostel Block [A/B/C/D1/D2]\nRoom Number\nPhone Number''')
 
 @bot.message_handler(func = lambda message: True)
 def router(message):
@@ -52,16 +52,16 @@ def router(message):
     if not db.patient_has_registered(message.chat.id):
         # this response is then the name, reg, phone thing .., so plug it into db
         fields = message.text.split("\n")
-        db.register_patient(message.chat.id, fields[0], int(fields[1]), fields[2], fields[3], fields[4], int(fields[5]))
-        bot.reply_to(message, "You've registered, continue using the app", reply_markup = markup)
-    if message.text == "Schedule a doctor appointment":
+        db.register_patient(message.chat.id, fields[0], int(fields[1]), fields[2], fields[3], fields[4], int(fields[5]), int(fields[6]))
+        bot.reply_to(message, "You have registered, continue using the app", reply_markup = markup)
+    if message.text == "Schedule a doctor's appointment":
         if not db.appointment_exists(message.chat.id):
             doctor_appointment(message)
         else:
-            bot.reply_to(message, "You already have an appointment registered")
+            bot.reply_to(message, "You already have an appointment scheduled")
 
 def doctor_appointment(message):
-    bot.reply_to(message, "Ok, we'll proceed to schedule an appointment with the doctor")
+    bot.reply_to(message, "Done! Your appointment has been scheduled")
     db.create_appointment(message.chat.id)
 
 bot.infinity_polling()
