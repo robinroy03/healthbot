@@ -10,24 +10,16 @@ import notifbot
 
 st_autorefresh(2000)
 
-with st.sidebar:
-    st.markdown("""
-    Navigate using the given tabs
-    """)
 
 st.markdown("""
-# ```HealthBot Dashboard🏥```
-In this page, you're having the queue of patient(s), which will be populated as new patients apply.
+# ```Health-Centre Queue 🏥```
+Used by the doctor to monitor the queue for the health centre appointments and log their prescriptions
 """)
 
-with st.expander("See the explanation on usage"):
+with st.expander("Usage"):
     st.markdown("""
     ```
-    In the left, enter the patient prescription following this:
-    
-    \"Morning-Afternoon-Night\"
-    X = Do not take medicine 
-    O = Take Medicine
+    Enter the patient's prescription using the following format:
                 
     Symptoms:
     Symptom1
@@ -36,6 +28,10 @@ with st.expander("See the explanation on usage"):
     Medicines:
     Medicine1 number_of_days X-O-O
     Medicine2 number_of_days O-X-O
+
+    Medicine Timings Format: \"Morning-Afternoon-Night\"
+    X = Do not take medicine 
+    O = Take Medicine
     ```
     """)
 
@@ -58,20 +54,20 @@ def appointment_over(telegram_id: int, dr_input: str):
     db.close_appointment(telegram_id)
     notifbot.send_queue_notifications()
 
-for appointment in db.get_active_appointments():
+for patient in db.get_active_appointments():
     with st.container():
         left, right = st.columns(2, gap = "small")
         with left:
-            st.write("Name: ", appointment['name'])
-            st.write("Age: ", appointment['age'])
-            st.write("Phone Number: ", appointment['phone_no'])
-            st.write("Time: ", appointment['time'])
+            st.write("Name: ", patient['name'])
+            st.write("Age: ", patient['age'])
+            st.write("Sex: ", patient['sex'])
+            st.write("Phone Number: ", patient['phone_no'])
+            st.write("Time: ", patient['time'])
         
         with right:
-            with st.form(key = str(appointment['telegram_id'])):
+            with st.form(key = str(patient['telegram_id'])):
                 dr_input = st.text_area(value="Symptoms: \n\nMedicines: ", label = "Enter the patient presciption", placeholder = "Enter here")
                 submitted = st.form_submit_button("Submit")
 
                 if submitted and dr_input != "":
-                    appointment_over(appointment['telegram_id'], dr_input)
-            # st.button("Appointment over", key = appointment['telegram_id'], on_click = db.close_appointment, args = (appointment['telegram_id'],))
+                    appointment_over(patient['telegram_id'], dr_input)

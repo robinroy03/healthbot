@@ -4,6 +4,12 @@ import db
 from datetime import datetime, timedelta
 
 
+st.markdown("""
+# ```Real-time Statistics 🔍```
+Monitor real-time cases of all the symptoms in the past 30 days to predict outbreaks
+___
+""")
+
 # Dataframe of symptoms, total counts, and day-wise frequencies
 data = {"symptom": [], "count": [], "frequency": []}
 

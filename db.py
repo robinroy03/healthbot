@@ -115,6 +115,7 @@ def create_appointment(telegram_id: int) -> None:
         "telegram_id": patient["telegram_id"],
         "name": patient["name"],
         "age": patient["age"],
+        "sex": patient["sex"],
         "phone_no": patient["phone_no"],
         "time": datetime.now(),
         "is_active": True,

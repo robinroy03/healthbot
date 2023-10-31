@@ -4,6 +4,11 @@ import db
 
 import pandas as pd
 
+st.markdown("""
+# ```Logs Search 🔍```
+Search the logs for a patient's consultation history.
+___
+""")
 
 with st.form("Input Form"):
     search = st.text_input(label = "Enter the register number of the patient: ")
