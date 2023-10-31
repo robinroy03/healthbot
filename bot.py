@@ -54,12 +54,12 @@ def router(message):
         # this response is then the name, reg, phone thing .., so plug it into db
         fields = message.text.split("\n")
         db.register_patient(message.chat.id, fields[0], int(fields[1]), fields[2], fields[3], fields[4], int(fields[5]), int(fields[6]))
-        bot.reply_to(message, "You have registered, continue using the app", reply_markup = markup)
+        bot.reply_to(message, "You are already registed, click on the button menu to continue", reply_markup = markup)
     if message.text == "Schedule a doctor's appointment":
         if not db.appointment_exists(message.chat.id):
             doctor_appointment(message)
         else:
-            bot.reply_to(message, "You already have an appointment scheduled")
+            bot.reply_to(message, "You already have an appointment scheduled!")
     elif message.text == "Deliver food to room":
         deliver_food_to_room(message)
     elif message.text == "Call Ambulance":
@@ -68,7 +68,7 @@ def router(message):
         counsellor_appointment(message)
 
 def doctor_appointment(message):
-    bot.reply_to(message, "Done! Your appointment has been scheduled")
+    bot.reply_to(message, "Done! Your appointment has been scheduled\nHead over to https://t.me/HealthNotificationBot to get notified when the doctor is ready to see you")
     db.create_appointment(message.chat.id)
 
 def deliver_food_to_room(message):
