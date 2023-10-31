@@ -5,7 +5,7 @@ from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 # SETUP
@@ -176,3 +176,11 @@ def create_consultation(telegram_id: int, symptoms: list, prescription: dict) ->
         {"telegram_id": telegram_id},
         {"$push": {"consultations": new_consultation}}
     )
+
+def get_consultations_from_last_30_days() -> list:
+    '''
+    Returns a list of all the consultations from the last 30 days
+    '''
+    thirty_days_ago = datetime.now() - timedelta(days=30)
+    query = {"consultations.time": {"$gte": thirty_days_ago, "$lte": datetime.now()}}
+    return patients_collection.find(query)
