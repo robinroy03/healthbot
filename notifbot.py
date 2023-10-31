@@ -40,4 +40,11 @@ def send_message_to_warden_ambulance(telegram_id: int):
 
     # message to the ambulance driver
     bot.send_message(751788076 , f'A student in {patient["block"]} block is sick and needs ambulance, please contact the warden and take the necessary steps')
+
+def send_message_to_counsellor(telegram_id: int):
+    load_dotenv()
+    bot = telebot.TeleBot(os.getenv("NOTIF_BOT_TOKEN"), parse_mode = None)
+    patient = db.get_patient(telegram_id)
     
+    # harcoding Robin as the counsellor
+    bot.send_message(751788076 , f'Student {patient["name"]} has booked an appointment with you.')

@@ -64,6 +64,8 @@ def router(message):
         deliver_food_to_room(message)
     elif message.text == "Call Ambulance":
         call_ambulance(message)
+    elif message.text == "Schedule a counsellor appointment":
+        counsellor_appointment(message)
 
 def doctor_appointment(message):
     bot.reply_to(message, "Done! Your appointment has been scheduled")
@@ -85,5 +87,9 @@ def call_ambulance(message):
     else:
         bot.reply_to(message, "You already have an appointment scheduled")    
     notifbot.send_message_to_warden_ambulance(message.chat.id)
+
+def counsellor_appointment(message):
+    bot.reply_to(message, "Done! Your appointment has been scheduled")
+    notifbot.send_message_to_counsellor(message.chat.id)
 
 bot.infinity_polling()
