@@ -63,4 +63,4 @@ def send_prescription(telegram_id: int, prescription: list):
             if time == True:
                 prescription_parsed += medicine_time[i] + " "
         prescription_parsed += "\n\n"
-    bot.send_message(telegram_id, f"Your prescription is\n\n{prescription_parsed}")
+    bot.send_message(telegram_id, f"Here is your prescription\n\n{prescription_parsed}")

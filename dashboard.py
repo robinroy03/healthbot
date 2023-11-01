@@ -22,16 +22,22 @@ with st.expander("Usage"):
     Enter the patient's prescription using the following format:
                 
     Symptoms:
-    Symptom1
-    Symptom2
+    <symptom-name>
                 
     Medicines:
-    Medicine1 number_of_days X-O-O
-    Medicine2 number_of_days O-X-O
+    <medicine-name> <number-of-days> <morning-afternoon-night>
+    [X = Do not take medicine, O = Take Medicine]
 
-    Medicine Timings Format: \"Morning-Afternoon-Night\"
-    X = Do not take medicine 
-    O = Take Medicine
+    Example:
+    
+    Symptoms:
+    High fever
+    Body pain
+    Dehydration
+    
+    Medicines:
+    Dolo-650 2 O-X-O
+    ORS 3 O-O-O
     ```
     """)
 
