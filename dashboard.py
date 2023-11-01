@@ -49,7 +49,7 @@ def appointment_over(telegram_id: int, dr_input: str):
     prescription = prescription.split("\n")[1:]
     prescription = [medicine.split() for medicine in prescription]
     prescription = [{"name": prescription[0], "days": int(prescription[1]), "timings": [True if x == "O" else False for x in prescription[2].split("-")]} for prescription in prescription]
-    print(symptoms, prescription)
+    notifbot.send_prescription(telegram_id, prescription)
     db.create_consultation(telegram_id, symptoms, prescription)
     db.close_appointment(telegram_id)
     notifbot.send_queue_notifications()

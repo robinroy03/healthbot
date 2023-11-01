@@ -48,3 +48,19 @@ def send_message_to_counsellor(telegram_id: int):
     
     # harcoding Robin as the counsellor
     bot.send_message(751788076 , f'Student {patient["name"]} has booked an appointment with you.')
+
+def send_prescription(telegram_id: int, prescription: list):
+    load_dotenv()
+    bot = telebot.TeleBot(os.getenv("NOTIF_BOT_TOKEN"), parse_mode = None)
+
+    # TODO: parser for the prescription
+    prescription_parsed = ""
+    medicine_time = {0: 'Morning', 1: 'Afternoon', 2: 'Night'}
+    for medicine in prescription:
+        prescription_parsed += f"Medicine: {medicine['name']}\nDays: {medicine['days']}\nTimings: "
+        for i in range(len(medicine['timings'])):
+            time = medicine['timings'][i]
+            if time == True:
+                prescription_parsed += medicine_time[i] + " "
+        prescription_parsed += "\n\n"
+    bot.send_message(telegram_id, f"Your prescription is\n\n{prescription_parsed}")
