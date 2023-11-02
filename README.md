@@ -28,12 +28,12 @@ Telegram notifications with prescriptions
 <img src="https://github.com/robinroy03/healthbot/assets/115863770/d18cda64-f7ca-4a6f-894e-8a41177b8aca" height="400">
 
 ## TODO:
-
-- [ ] Clean the rough edges. Since it was a quick hack, we didn't bother about a lot of edge cases. For example, the counsellor appointment could be spammed multiple times (but the doctor appointment couldn't be)
-- [ ] Clean this readme.
-- [ ] Reorganize this TODO list
+- [ ] Clean the code. It was a quick hack, so the code is a bit messy. A lot of edge cases are not yet handled.
+- [ ] Combine the two telegram bots into one. Having a separate bot for notifications is not necessary.
+- [ ] Make a REST API for the dasboard to interact with instead of calling functions from the bot.py file directly.
+- [ ] Set up unit tests.
 - [ ] Use an actual ML model to predict outbreaks using data from the health centre.
-- [ ] When everything else in this TODO list is done, do something about the UI. I'll say give the ML model the most priority.
+- [ ] Deploy the app.
 
 ## How to run
 __1) Create a mongoDB Atlas cluster, create a databse and get the connection URI__
