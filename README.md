@@ -98,5 +98,6 @@ __8) You are all set! You can now begin messaging the bot on telegram.__
 
 ## Team
 - [Harish Chandran](https://github.com/HarishChandran3304)
-- [Robin Roy](https://github.com/robinroy03) <br>
+- [Robin Roy](https://github.com/robinroy03)
+    
 Was an overall fun cook and the vibes were immaculate. Finished as 3rd runners up and were awarded a cash prize :)
