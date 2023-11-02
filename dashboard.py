@@ -27,7 +27,13 @@ def prescription_parser(dr_input: str) -> tuple:
     symptoms = symptoms.split("\n")[1:]
     prescription = prescription.split("\n")[1:]
     prescription = [medicine.split() for medicine in prescription]
-    prescription = [{"name": prescription[0], "days": int(prescription[1]), "timings": [True if x == "O" else False for x in prescription[2].split("-")]} for prescription in prescription]
+    prescription = [
+        {
+            "name": prescription[0], 
+            "days": int(prescription[1]), 
+            "timings": [True if x == "O" else False for x in prescription[2].split("-")]
+        } 
+        for prescription in prescription]
     return symptoms, prescription
 
 def appointment_over(telegram_id: int, dr_input: str) -> None:
@@ -35,10 +41,10 @@ def appointment_over(telegram_id: int, dr_input: str) -> None:
     Marks the appointment as over and sends the prescription to the patient
     '''
     symptoms, prescription = prescription_parser(dr_input)
-    notifbot.send_prescription(telegram_id, prescription)
+    notifbot.send_prescription_to_patient(telegram_id, prescription)
     db.create_consultation(telegram_id, symptoms, prescription)
     db.close_appointment(telegram_id)
-    notifbot.send_queue_notifications()
+    notifbot.send_queue_notif()
 
 
 # PAGE RENDER

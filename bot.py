@@ -74,7 +74,7 @@ def doctor_appointment(message):
 def deliver_food_to_room(message):
     if db.is_patient_sick(message.chat.id):
         bot.reply_to(message, "Done! We'll send food to your room soon :)")
-        notifbot.send_message_to_warden(message.chat.id)
+        notifbot.send_food_req_notif_to_warden(message.chat.id)
     else:
         bot.reply_to(message, "Sorry, you can't avail this feature when you're not sick")
 
@@ -86,10 +86,10 @@ def call_ambulance(message):
         doctor_appointment(message)
     else:
         bot.reply_to(message, "You already have an appointment scheduled")    
-    notifbot.send_message_to_warden_ambulance(message.chat.id)
+    notifbot.send_ambulance_notif(message.chat.id)
 
 def counsellor_appointment(message):
     bot.reply_to(message, "Done! Your appointment has been scheduled")
-    notifbot.send_message_to_counsellor(message.chat.id)
+    notifbot.send_appointment_notif_to_counsellor(message.chat.id)
 
 bot.infinity_polling()
