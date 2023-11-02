@@ -1,33 +1,52 @@
 # HealthBot: Health Management System for VITC Health Centre
 
-HealthBot is an application made to streamline the campus health centre operations and improve the quality of life of students. 
+HealthBot is an application made to streamline the campus health centre operations and improve the quality of life of students.<br>
+Our Submission for the Summer Solve-A-Thon Hackathon conducted at VITC.
 
-__Index__
-- [TODO](https://github.com/robinroy03/healthbot#todo)
-- [How to run](https://github.com/robinroy03/healthbot#how-to-run)
+## __Index__
+- ### [Features](https://github.com/rorbinroy03/healthbot#features)
+- ### [Screenshots](https://github.com/rorbinroy03/healthbot#screenshots)
+- ### [TODO](https://github.com/robinroy03/healthbot#todo)
+- ### [How To Run](https://github.com/robinroy03/healthbot#how-to-run)
+- ### [Tech Stack](https://github.com/rorbinroy03/healthbot#tech-stack)
+- ### [Team](https://github.com/rorbinroy03/healthbot#team)
 
-The students interact with the application through the telegram interface, and the doctor can see it on a live dashboard given to them.
-There are options for scheduling appointments with doctors & counsellors, viewing prescriptions and such on the student side.
-In the health centre dashboard, there are features such as digitalized patient logs, and real-time monitoring of current symptoms/diseases around the campus to predict outbreaks.
+## Features
+There are 2 UIs for the application. One for the students and one for the health centre.
+The students interact with a Telegram bot, whereas the health centre officials interact with a web dashboard.
 
-Our live symptom-tracking feature provides a visual graph of the increasing frequency of cases day by day
+Students' UI Features:
+- Schedule doctor's appointment
+- Call ambulance
+- Schedule counsellor's appointment
+- Get food delivered to room
+- Notifications for appointments and prescriptions
 
-HealthBot Queue Dashboard
+Health Centre Dashboard Features:
+- Manage appointments queue
+- Enter prescriptions for patients
+- Search patient logs for consultation history
+- Monitor real-time statistics of current cases in campus and get a visual graph of the increasing frequency of cases day by day
+- Appropriate notifications to authorities
+
+## Screenshots
+Appointments Queue
 <img src="https://github.com/robinroy03/healthbot/assets/115863770/6cf0dc57-bd0b-4ab8-afdc-b400e2865e29" height="400">
-
-Real-Time Statistics
-<img src="https://github.com/robinroy03/healthbot/assets/115863770/5159ac1b-2617-4754-a1cd-341b534e53b7" height="400">
 
 Patient Logs Search
 <img src="https://github.com/robinroy03/healthbot/assets/115863770/0ebd74e6-9b68-49c3-b8e8-2325addd3120" height="400">
 
+Real-Time Statistics
+<img src="https://github.com/robinroy03/healthbot/assets/115863770/5159ac1b-2617-4754-a1cd-341b534e53b7" height="400">
+
 Telegram Student Interface
 <img src="https://github.com/robinroy03/healthbot/assets/115863770/d7467443-8fad-454b-a70e-8257eae98c8f" height="400">
 
-Telegram notifications with prescriptions
+Telegram prescription notifications
 <img src="https://github.com/robinroy03/healthbot/assets/115863770/d18cda64-f7ca-4a6f-894e-8a41177b8aca" height="400">
 
 ## TODO:
+- [ ] Fix images on this README
 - [ ] Clean the code. It was a quick hack, so the code is a bit messy. A lot of edge cases are not yet handled.
 - [ ] Combine the two telegram bots into one. Having a separate bot for notifications is not necessary.
 - [ ] Make a REST API for the dasboard to interact with instead of calling functions from the bot.py file directly.
@@ -73,7 +92,11 @@ streamlit run dashboard.py
 
 __8) You are all set! You can now begin messaging the bot on telegram.__
 
-<hr>
-<br>
+## Tech Stack
+- Frontend: Streamlit, Telegram API<br>
+- Backend: MongoDB, Python<br>
 
-Was a fun cook with [Harizz](https://github.com/HarishChandran3304) for VITC Solve-A-Thon Hackathon. We came 4th and were awarded with a cash prize :) 
+## Team
+- [Harish Chandran](https://github.com/HarishChandran3304)
+- [Robin Roy](https://github.com/robinroy03)
+Was an overall fun cook and the vibes were immaculate. Finished as 3rd runners up and were awarded a cash prize :)
