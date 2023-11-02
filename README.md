@@ -1,11 +1,11 @@
 <br/>
 <p align="center">
-  <h3 align="center">HealthBot 🏥</h3>
+  <h1 align="center">HealthBot 🏥</h1>
 
   <p align="center">
-    Health Management System for the VITC Health Centre
+    <h2>Health Management System for the VITC Health Centre</h2>
     <br/>
-    Automated Queue | Digitalized Prescriptions | Real-time Statistics
+    <h2>Automated Queue | Digitalized Prescriptions | Real-time Statistics</h2>
     <br/>
     <br/>
   </p>
