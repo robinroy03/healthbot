@@ -1,16 +1,47 @@
-"""
-The streamlit UI for the health center personnels
-"""
-
+# IMPORTS
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
 import db
 import notifbot
 
+
+# SETUP
 st_autorefresh(2000)
 
 
+# HELPER FUNCTIONS
+def prescription_parser(dr_input: str) -> tuple:
+    '''
+    Parses the doctor's prescription and returns a list of dictionaries in the following format:
+    [
+        {
+            "name": <medicine-name>,
+            "days": <number-of-days>,
+            "timings": [<morning>, <afternoon>, <night>]
+        },
+        ...
+    ]
+    '''
+    symptoms, prescription = dr_input.split("\n\n")
+    symptoms = symptoms.split("\n")[1:]
+    prescription = prescription.split("\n")[1:]
+    prescription = [medicine.split() for medicine in prescription]
+    prescription = [{"name": prescription[0], "days": int(prescription[1]), "timings": [True if x == "O" else False for x in prescription[2].split("-")]} for prescription in prescription]
+    return symptoms, prescription
+
+def appointment_over(telegram_id: int, dr_input: str) -> None:
+    '''
+    Marks the appointment as over and sends the prescription to the patient
+    '''
+    symptoms, prescription = prescription_parser(dr_input)
+    notifbot.send_prescription(telegram_id, prescription)
+    db.create_consultation(telegram_id, symptoms, prescription)
+    db.close_appointment(telegram_id)
+    notifbot.send_queue_notifications()
+
+
+# PAGE RENDER
 st.markdown("""
 # ```Health-Centre Queue 🏥```
 Used by the doctor to monitor the queue for the health centre appointments and log their prescriptions
@@ -45,20 +76,6 @@ st.markdown("""
 ---
 """)
 
-def appointment_over(telegram_id: int, dr_input: str):
-    """
-    A wrappper for db.close_appointment()
-    takes inputs such as symptoms, medicines, number of days to take medicines, when all (mrng, evng, night)
-    """
-    symptoms, prescription = dr_input.split("\n\n")
-    symptoms = symptoms.split("\n")[1:]
-    prescription = prescription.split("\n")[1:]
-    prescription = [medicine.split() for medicine in prescription]
-    prescription = [{"name": prescription[0], "days": int(prescription[1]), "timings": [True if x == "O" else False for x in prescription[2].split("-")]} for prescription in prescription]
-    notifbot.send_prescription(telegram_id, prescription)
-    db.create_consultation(telegram_id, symptoms, prescription)
-    db.close_appointment(telegram_id)
-    notifbot.send_queue_notifications()
 
 for patient in db.get_active_appointments():
     with st.container():
