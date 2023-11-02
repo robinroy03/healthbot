@@ -3,8 +3,8 @@
 HealthBot is an application made to streamline the campus health centre operations and improve the quality of life of students. 
 
 __Index__
-- [TODO](https://github.com/robinroy03/healthbot/edit/main/README.md#todo)
-- [How to run](https://github.com/robinroy03/healthbot/edit/main/README.md#how-to-run)
+- [TODO](https://github.com/robinroy03/healthbot/README.md#todo)
+- [How to run](https://github.com/robinroy03/healthbot/README.md#how-to-run)
 
 The students interact with the application through the telegram interface, and the doctor can see it on a live dashboard given to them.
 There are options for scheduling appointments with doctors & counsellors, viewing prescriptions and such on the student side.
