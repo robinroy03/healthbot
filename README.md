@@ -36,8 +36,24 @@ Telegram notifications with prescriptions
 - [ ] When everything else in this TODO list is done, do something about the UI. I'll say give the ML model the most priority.
 
 ## How to run
+__1) Create a mongoDB Atlas cluster, create a databse and get the connection URI__
 
-__.env file__
+__2) Create 2 telegram bots (One for patients UI and one for the notifications) and get the bot tokens__
+
+__3) Clone the repo__
+```bash
+git clone https://github.com/robinroy03/healthbot.git
+cd healthbot
+```
+
+__4) Create a virtual environment and install dependencies__
+```bash
+python3 -m venv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
+__5) Create a .env file in the root directory with the following variables__
 ```
 ATLAS_URI = 
 DB_NAME = 
@@ -45,10 +61,19 @@ BOT_TOKEN =
 NOTIF_BOT_TOKEN = 
 ```
 
-__To start bot__
-```
-streamlit run dashboard.py
+__6) Start the bot__
+```bash
 python3 bot.py
 ```
+
+__7) Launch the dashboard__
+```bash
+streamlit run dashboard.py
+```
+
+__8) You are all set! You can now begin messaging the bot on telegram.__
+
+<hr>
+<br>
 
 Was a fun cook with [Harizz](https://github.com/HarishChandran3304) for VITC Solve-A-Thon Hackathon. We came 4th and were awarded with a cash prize :) 
